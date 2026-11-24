@@ -1,5 +1,8 @@
 package io.github.dtabs17.incident.service;
 
+import java.util.NoSuchElementException;
+import io.github.dtabs17.incident.domain.Engineer;
+
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,6 +14,8 @@ import io.github.dtabs17.incident.domain.DegradationIncident;
 import io.github.dtabs17.incident.domain.Incident;
 import io.github.dtabs17.incident.domain.OutageIncident;
 import io.github.dtabs17.incident.domain.Severity;
+
+
 
 public final class IncidentManager {
 
@@ -74,6 +79,31 @@ public final class IncidentManager {
         return incidents.stream()
                 .filter(incident -> incident.getId().equals(searchId))
                 .findFirst();
+    }
+
+
+    public Incident assignEngineer(String id, Engineer engineer) {
+        Incident incident = requireIncident(id);
+        incident.assignTo(engineer);
+        return incident;
+    }
+
+    public Incident startProgress(String id) {
+        Incident incident = requireIncident(id);
+        incident.startProgress();
+        return incident;
+    }
+
+    public Incident resolveIncident(String id) {
+        Incident incident = requireIncident(id);
+        incident.resolve(Instant.now(clock));
+        return incident;
+    }
+
+    private Incident requireIncident(String id) {
+        return findById(id).orElseThrow(
+                () -> new NoSuchElementException(
+                        "Incident not found: " + id.strip()));
     }
 
     private String generateNextId() {
