@@ -1,28 +1,29 @@
 package io.github.dtabs17;
 
-import java.util.List;
-
 import io.github.dtabs17.incident.domain.Incident;
-import io.github.dtabs17.incident.domain.OutageIncident;
-import io.github.dtabs17.incident.domain.DegradationIncident;
 import io.github.dtabs17.incident.domain.Severity;
+import io.github.dtabs17.incident.service.IncidentManager;
 
 public class App {
 
     public static void main(String[] args) {
 
-        List<Incident> incidents = List.of(
-            new OutageIncident(
-                "INC-001", "Payment API unavailable",
-                Severity.CRITICAL, 120
-            ),
-            new DegradationIncident(
-                "INC-002", "Search is slow",
-                Severity.HIGH, 45
-            )
+        IncidentManager manager = new IncidentManager();
+
+        manager.registerOutage(
+                "Payment API unavailable",
+                Severity.CRITICAL,
+                120
         );
 
-        incidents.stream()
+        manager.registerDegradation(
+                "Search is slow",
+                Severity.HIGH,
+                45
+        );
+
+        manager.getAllIncidents()
+                .stream()
                 .map(Incident::summary)
                 .forEach(System.out::println);
     }
