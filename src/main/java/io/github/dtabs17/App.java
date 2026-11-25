@@ -44,15 +44,9 @@ public class App {
         var filter = IncidentFilters.bySeverities(priorityLevels)
                 .and(IncidentFilters.byStatus(IncidentStatus.OPEN));
 
-        var report = new StringBuilder(
-                "Open high-priority incidents:" + System.lineSeparator());
+        var report = manager.generateReport(filter);
 
-        manager.findIncidents(filter)
-                .stream()
-                .map(Incident::summary)
-                .forEach(summary -> report.append(summary).append(System.lineSeparator()));
-
-        System.out.print(report);
+        System.out.print(report.toText());
 
     }
 }

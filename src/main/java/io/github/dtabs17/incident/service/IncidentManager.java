@@ -1,10 +1,10 @@
 package io.github.dtabs17.incident.service;
 
 import java.util.NoSuchElementException;
-import io.github.dtabs17.incident.domain.Engineer;
 
 import java.time.Clock;
 import java.time.Instant;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +15,9 @@ import io.github.dtabs17.incident.domain.DegradationIncident;
 import io.github.dtabs17.incident.domain.Incident;
 import io.github.dtabs17.incident.domain.OutageIncident;
 import io.github.dtabs17.incident.domain.Severity;
+import io.github.dtabs17.incident.domain.Engineer;
+
+import io.github.dtabs17.incident.report.IncidentReport;
 
 public final class IncidentManager {
 
@@ -112,6 +115,15 @@ public final class IncidentManager {
 
     private String generateNextId() {
         return "INC-%03d".formatted(nextIncidentNumber);
+    }
+
+    public IncidentReport generateReport(Predicate<Incident> filter) {
+        String[] lines = findIncidents(filter)
+                .stream()
+                .map(Incident::summary)
+                .toArray(String[]::new);
+
+        return new IncidentReport(Instant.now(clock), lines);
     }
 
 }
