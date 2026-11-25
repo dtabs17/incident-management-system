@@ -6,11 +6,8 @@ import java.util.Optional;
 
 import io.github.dtabs17.incident.exception.InvalidIncidentStateException;
 
-public abstract sealed
-
-class Incident
-permits OutageIncident, DegradationIncident
-{
+public abstract sealed class Incident implements SlaTracked
+        permits OutageIncident, DegradationIncident {
 
     private final String id;
     private final String title;
