@@ -7,6 +7,7 @@ import io.github.dtabs17.incident.domain.Severity;
 import io.github.dtabs17.incident.domain.SlaTracked;
 import io.github.dtabs17.incident.service.IncidentFilters;
 import io.github.dtabs17.incident.service.IncidentManager;
+import io.github.dtabs17.incident.domain.IncidentImpactClassifier;
 
 public class App {
 
@@ -34,6 +35,8 @@ public class App {
             System.out.println(
                     "SLA deadline: "
                             + SlaTracked.formatDeadline(incident.getDeadline()));
+            System.out.println("Impact category: "
+                    + IncidentImpactClassifier.classify(incident));
         });
 
         Severity[] priorityLevels = {

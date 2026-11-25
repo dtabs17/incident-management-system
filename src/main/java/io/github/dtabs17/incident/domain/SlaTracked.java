@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
-public interface SlaTracked {
+public sealed interface SlaTracked permits Incident {
 
     Instant getCreatedAt();
 
