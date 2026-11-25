@@ -91,4 +91,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Local VS Code Java launch configuration
+.vscode/launch.json
+
 # End of https://www.toptal.com/developers/gitignore/api/java,visualstudiocode,windows,maven

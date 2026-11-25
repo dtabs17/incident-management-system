@@ -4,6 +4,7 @@ import io.github.dtabs17.incident.domain.Engineer;
 import io.github.dtabs17.incident.domain.Incident;
 import io.github.dtabs17.incident.domain.Severity;
 import io.github.dtabs17.incident.service.IncidentManager;
+import io.github.dtabs17.incident.domain.SlaTracked;
 
 public class App {
 
@@ -22,8 +23,11 @@ public class App {
         manager.startProgress(outage.getId());
         manager.resolveIncident(outage.getId());
 
-        manager.getAllIncidents().stream()
-                .map(Incident::summary)
-                .forEach(System.out::println);
+        manager.getAllIncidents().forEach(incident -> {
+        System.out.println(incident.summary());
+        System.out.println("SLA deadline: "
+                + SlaTracked.formatDeadline(incident.getDeadline()));
+        });
+
     }
 }
