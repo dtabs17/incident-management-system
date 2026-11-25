@@ -1,4 +1,5 @@
 # Incident Management System
+[![Java CI](https://github.com/dtabs17/incident-management-system/actions/workflows/java-ci.yml/badge.svg)](https://github.com/dtabs17/incident-management-system/actions/workflows/java-ci.yml)
 
 A Java 27 command-line application for registering and managing IT service incidents. It demonstrates object-oriented design and modern Java language features through an incident workflow rather than a collection of isolated examples.
 
