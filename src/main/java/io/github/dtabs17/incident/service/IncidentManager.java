@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import io.github.dtabs17.incident.domain.DegradationIncident;
 import io.github.dtabs17.incident.domain.Incident;
 import io.github.dtabs17.incident.domain.OutageIncident;
 import io.github.dtabs17.incident.domain.Severity;
-
-
 
 public final class IncidentManager {
 
@@ -31,6 +30,14 @@ public final class IncidentManager {
         this.clock = Objects.requireNonNull(clock, "Clock is required");
     }
 
+    public List<Incident> findIncidents(Predicate<Incident> filter) {
+        Objects.requireNonNull(filter, "Filter is required");
+
+        return incidents.stream()
+                .filter(filter)
+                .toList();
+    }
+
     public OutageIncident registerOutage(
             String title, Severity severity, int affectedUserCount) {
 
@@ -39,8 +46,7 @@ public final class IncidentManager {
                 title,
                 severity,
                 Instant.now(clock),
-                affectedUserCount
-        );
+                affectedUserCount);
 
         incidents.add(incident);
         nextIncidentNumber++;
@@ -56,8 +62,7 @@ public final class IncidentManager {
                 title,
                 severity,
                 Instant.now(clock),
-                performanceLossPercent
-        );
+                performanceLossPercent);
 
         incidents.add(incident);
         nextIncidentNumber++;
@@ -80,7 +85,6 @@ public final class IncidentManager {
                 .filter(incident -> incident.getId().equals(searchId))
                 .findFirst();
     }
-
 
     public Incident assignEngineer(String id, Engineer engineer) {
         Incident incident = requireIncident(id);
@@ -109,4 +113,5 @@ public final class IncidentManager {
     private String generateNextId() {
         return "INC-%03d".formatted(nextIncidentNumber);
     }
+
 }
